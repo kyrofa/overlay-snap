@@ -1,0 +1,25 @@
+#!/bin/sh
+set -e
+
+if [ -z "$1" ]; then
+	echo "`basename $0` <dir>"
+	exit 1
+fi
+dir="$1"
+
+if [ ! -d "$dir" ]; then
+	echo "'$dir' is not a directory"
+	exit 1
+fi
+
+tmp=`mktemp -d`
+overlay="$tmp/overlay"
+work="$tmp/work"
+mkdir "$overlay" "$work"
+
+# This does not handle directories with spaces in the names
+cmd="sudo mount -t overlayfs -o lowerdir=$dir,upperdir=$overlay,workdir=$work overlayfs $dir"
+echo "$cmd"
+$cmd
+
+echo "You may now write to '$dir'"
