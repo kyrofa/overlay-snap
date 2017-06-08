@@ -18,7 +18,7 @@ work="$tmp/work"
 mkdir "$overlay" "$work"
 
 # This does not handle directories with spaces in the names
-cmd="sudo mount -t overlayfs -o lowerdir=$dir,upperdir=$overlay,workdir=$work overlayfs $dir"
+cmd="sudo mount -t overlay -o lowerdir=$dir,upperdir=$overlay,workdir=$work overlayfs $dir"
 echo "$cmd"
 $cmd
 
